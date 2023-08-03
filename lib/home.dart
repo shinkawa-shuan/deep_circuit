@@ -7,7 +7,9 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
+      appBar: AppBar(
+        title: const Text('Home'),
+      ),
       body: Center(
         child: Column(
           children: [
@@ -29,7 +31,7 @@ class Home extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
-                      onPressed: () => context.go('/input1'),
+                      onPressed: () => context.go('/input0'),
                       child: const Text('FRUITS'),
                     ),
                   ),

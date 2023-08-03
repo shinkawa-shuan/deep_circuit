@@ -5,8 +5,8 @@ import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myapp/inputlayer.dart';
 import 'package:myapp/utils.dart';
-// import 'package:myapp/result.dart';
-// import 'package:myapp/waiting.dart';
+import 'package:myapp/result.dart';
+import 'package:myapp/waiting.dart';
 import 'package:myapp/outputlayer.dart';
 import 'package:myapp/inputlayer.dart';
 import 'color_schemes.g.dart';
@@ -14,7 +14,10 @@ import 'color_schemes.g.dart';
 import 'home.dart';
 import 'questionvalue.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+  // print("$anser");
+}
 
 final GoRouter _router = GoRouter(
   routes: <RouteBase>[
@@ -24,6 +27,12 @@ final GoRouter _router = GoRouter(
         return const Home();
       },
       routes: <RouteBase>[
+        GoRoute(
+          path: 'input0',
+          builder: (BuildContext context, GoRouterState state) {
+            return const Inputlayer(inputNum: '0');
+          },
+        ),
         GoRoute(
           path: 'input1',
           builder: (BuildContext context, GoRouterState state) {
@@ -37,9 +46,9 @@ final GoRouter _router = GoRouter(
           },
         ),
         GoRoute(
-          path: 'input3',
+          path: 'output0',
           builder: (BuildContext context, GoRouterState state) {
-            return const Inputlayer(inputNum: '3');
+            return const Outputlayer(outputNum: '0');
           },
         ),
         GoRoute(
@@ -55,9 +64,15 @@ final GoRouter _router = GoRouter(
           },
         ),
         GoRoute(
-          path: 'output3',
+          path: 'waiting',
           builder: (BuildContext context, GoRouterState state) {
-            return const Outputlayer(outputNum: '3');
+            return const Waiting();
+          },
+        ),
+        GoRoute(
+          path: 'result',
+          builder: (BuildContext context, GoRouterState state) {
+            return const Result(outputNum: '3');
           },
         ),
       ],

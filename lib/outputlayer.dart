@@ -17,22 +17,35 @@ class Outputlayer extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('出力層')),
       body: Center(
-        child: Column(children: [
+        child: ListView(padding: const EdgeInsets.all(50), children: [
           Text(outputNum),
+          // Text('${matrix.outputArray}'),
           const Padding(
-            padding: const EdgeInsets.all(50.0),
+            padding: EdgeInsets.all(20.0),
             child: Text('教師データを作成してください',
                 style: TextStyle(
                   fontSize: 25,
                 )),
           ),
-          const Column(
-            children: [
-              // ListView(),
-            ],
-          ),
-          const SingleChoice(),
-          const Spacer(flex: 1),
+          ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.all(8),
+              itemCount: teach.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                      height: 50,
+                      child: Center(child: Text('教師データ：${teach[index]}')),
+                    ),
+                    const SwitchTeach(),
+                  ],
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider()),
         ]),
       ),
       floatingActionButton: Row(
@@ -48,10 +61,12 @@ class Outputlayer extends StatelessWidget {
               int o = int.parse(outputNum);
               o++;
               String outputnum = o.toString();
-              if (outputnum == '2') {
+              if (outputnum == '1') {
+                context.go('/input1');
+              } else if (outputnum == '2') {
                 context.go('/input2');
-              } else if (outputnum == '3') {
-                context.go('/input3');
+              } else {
+                context.go('/waiting');
               }
             },
             child: const Icon(Icons.arrow_forward),
@@ -60,18 +75,53 @@ class Outputlayer extends StatelessWidget {
       ),
     );
   }
+}
 
-  // Widget listTeach(BuildContext context) {
-  //   return ListView.separated(
-  //     padding: const EdgeInsets.all(8),
-  //     itemCount: teach.length,
-  //     itemBuilder: (BuildContext context, int index) {
-  //       return Container(
-  //         height: 50,
-  //         child: Center(child: Text('Entry ${teach[index]}')),
-  //       );
-  //     },
-  //     separatorBuilder: (BuildContext context, int index) => const Divider(),
-  //   );
-  // }
+// スイッチのクラス
+class SwitchTeach extends StatefulWidget {
+  const SwitchTeach({super.key});
+
+  @override
+  State<SwitchTeach> createState() => _SwitchTeachState();
+}
+
+class _SwitchTeachState extends State<SwitchTeach> {
+  // bool light0 = true;
+  bool light1 = false; // 初期値はスイッチ・オフ
+
+  final MaterialStateProperty<Icon?> thumbIcon =
+      MaterialStateProperty.resolveWith<Icon?>(
+    (Set<MaterialState> states) {
+      if (states.contains(MaterialState.selected)) {
+        return const Icon(Icons.check);
+      }
+      return const Icon(Icons.close);
+    },
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        // Switch(
+        //   value: light0,
+        //   onChanged: (bool value) {
+        //     setState(() {
+        //       light0 = value;
+        //     });
+        //   },
+        // ),
+        Switch(
+          thumbIcon: thumbIcon,
+          value: light1,
+          onChanged: (bool value) {
+            setState(() {
+              light1 = value;
+            });
+          },
+        ),
+      ],
+    );
+  }
 }
